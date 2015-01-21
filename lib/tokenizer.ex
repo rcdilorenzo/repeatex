@@ -1,4 +1,5 @@
 defmodule Repeatex.Tokenizer do
+  import Repeatex.Parser
 
   @days %{
     sunday: ~r/sun(day)?/,
@@ -9,8 +10,34 @@ defmodule Repeatex.Tokenizer do
     friday: ~r/fri(day)?/,
     saturday: ~r/satu?r?(day)?/,
   }
+  @frequency %{
+    ~r/(each|every|of the) (week|month|year)/ => 1,
+    ~r/(daily|annually)/ => 1,
+    ~r/(each|every)? ?other (week|month|year)/ => 2,
+    ~r/bi-(week|month|year)/ => 2,
+    ~r/(?<digit>\d+).(week|month|year)/ => "digit"
+  }
   @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/
 
+  def type(description) do
+    cond do
+      weekly?(description)  -> :weekly
+      monthly?(description) -> :monthly
+      yearly?(description)  -> :yearly
+      true -> :unknown
+    end
+  end
+
+  def frequency(description) do
+    @frequency |> Enum.find_value fn
+      ({regex, freq}) when is_integer(freq) ->
+        if Regex.match?(regex, description), do: freq
+      ({regex, key}) when is_binary(key) ->
+        if Regex.match?(regex, description) do
+          Regex.named_captures(regex, description)[key] |> String.to_integer
+        end
+    end
+  end
 
   def days(description) do
     if sequential_days?(description) do

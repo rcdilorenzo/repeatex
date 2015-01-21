@@ -4,7 +4,7 @@ defmodule Repeatex.Parser do
 
 
   def weekly?(description) do
-    !monthly?(description) and !yearly?(description)
+    ~r/(daily|week(ly)?)/ |> Regex.match? description
   end
 
   def monthly?(description) do
