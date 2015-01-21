@@ -22,20 +22,23 @@ defmodule TokenizerTest do
   end
 
   it "determines the type of repeat" do
-    Tokenizer.type("every week")             |> :weekly
+    Tokenizer.type("each week")              |> :weekly
+    Tokenizer.type("mon-sat every week")     |> :weekly
+    Tokenizer.type("every tues")             |> :weekly
+    Tokenizer.type("thursdays")              |> :weekly
     Tokenizer.type("the 1st of every month") |> :monthly
     Tokenizer.type("Feb 29 every 4 years")   |> :yearly
     Tokenizer.type("invalid format")         |> :unknown
   end
 
   it "determines the frequency" do
-    Tokenizer.frequency("daily") |> 1
-    Tokenizer.frequency("annually") |> 1
-    Tokenizer.frequency("thursdays bi-weekly") |> 2
-    Tokenizer.frequency("thursdays every other week") |> 2
-    Tokenizer.frequency("Feb 29 every 4 years") |> 4
+    Tokenizer.frequency("daily")                           |> 1
+    Tokenizer.frequency("annually")                        |> 1
+    Tokenizer.frequency("thursdays bi-weekly")             |> 2
+    Tokenizer.frequency("thursdays every other week")      |> 2
+    Tokenizer.frequency("Feb 29 every 4 years")            |> 4
     Tokenizer.frequency("every 3rd thursday of the month") |> 1
-    Tokenizer.frequency("invalid format") |> nil
+    Tokenizer.frequency("invalid format")                  |> nil
   end
 
   describe "helpers" do

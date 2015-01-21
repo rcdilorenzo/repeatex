@@ -4,7 +4,12 @@ defmodule Repeatex.Parser do
 
 
   def weekly?(description) do
-    ~r/(daily|week(ly)?)/ |> Regex.match? description
+    week_based = Regex.match?(~r/(daily|week(ly)?)/, description)
+    if !monthly?(description) and !yearly?(description) do
+      Repeatex.Tokenizer.days(description) != [] or week_based
+    else
+      week_based
+    end
   end
 
   def monthly?(description) do
