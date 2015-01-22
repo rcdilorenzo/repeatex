@@ -1,6 +1,25 @@
 defmodule Repeatex.Parser do
+  alias Repeatex.Tokenizer, as: Tokenizer
 
   @all [ :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday ]
+
+  def parse(description) do
+    type = Tokenizer.type(description)
+    days = case type do
+      :weekly ->
+        Tokenizer.days description
+      :monthly ->
+        Tokenizer.monthly_days description
+      :yearly ->
+        Tokenizer.yearly_days description
+      :unknown -> []
+    end
+    %Repeatex.Repeat{
+      type: type,
+      frequency: Tokenizer.frequency(description),
+      days: days
+    }
+  end
 
 
   def weekly?(description) do

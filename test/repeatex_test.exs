@@ -2,6 +2,17 @@ defmodule RepeatexTest do
   use Amrita.Sweet
   alias Repeatex.Parser, as: Parser
 
+  facts "repeat struct" do
+
+    it "converts repeat description" do
+      Parser.parse("mondays and wednesdays every other week")
+        |> equals %Repeatex.Repeat{type: :weekly, frequency: 2, days: [:monday, :wednesday]}
+
+      Parser.parse("march 26 annually")
+        |> equals %Repeatex.Repeat{type: :yearly, frequency: 1, days: [march: 26]}
+    end
+  end
+
   facts "repeat form" do
     fact "is weekly" do
       assert Parser.weekly? "every week on thursday"

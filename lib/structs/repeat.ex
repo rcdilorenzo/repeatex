@@ -1,3 +1,3 @@
 defmodule Repeatex.Repeat do
-  defstruct weekly: nil, monthly: nil, days: []
+  defstruct type: :unknown, frequency: 0, days: []
 end
