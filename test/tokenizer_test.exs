@@ -19,6 +19,31 @@ defmodule TokenizerTest do
       Tokenizer.days("every week on fri-mon")
         |> [:sunday, :monday, :friday, :saturday]
     end
+
+    it "parses month days" do
+      Tokenizer.monthly_days("1st and 3rd every 2 months")
+        |> [1, 3]
+
+      Tokenizer.monthly_days("the 25th of every month")
+        |> [25]
+    end
+
+    it "parses relative days of the month" do
+      Tokenizer.monthly_days("1st monday and 3rd wednesday every 2 months")
+        |> [{1, :monday}, {3, :wednesday}]
+
+      # TODO: potentially change this behavior later
+      Tokenizer.monthly_days("1st and 3rd mondays every 2 months")
+        |> [1, {3, :monday}]
+    end
+
+    it "parses month and day for yearly repeat" do
+      Tokenizer.yearly_days("Jan 1st and Feb 2nd of every other year")
+        |> [january: 1, february: 2]
+
+      Tokenizer.yearly_days("March 26 annually")
+        |> [march: 26]
+    end
   end
 
   it "determines the type of repeat" do
