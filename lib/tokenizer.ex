@@ -56,13 +56,15 @@ defmodule Repeatex.Tokenizer do
   end
 
   def days(description) do
-    if sequential_days?(description) do
-      %{"start" => first, "end" => second} = Regex.named_captures(@sequential, description)
-      Repeatex.Helper.seq_days(find_day(first), find_day(second))
-    else
-      @days |> Enum.filter_map fn ({_, regex}) ->
-        Regex.match? regex, description
-      end, (fn ({atom, _}) -> atom end)
+    cond do
+      Regex.match?(~r/daily/, description) -> Repeatex.Repeat.all_days
+      sequential_days?(description) ->
+        %{"start" => first, "end" => second} = Regex.named_captures(@sequential, description)
+        Repeatex.Helper.seq_days(find_day(first), find_day(second))
+      true ->
+        @days |> Enum.filter_map fn ({_, regex}) ->
+          Regex.match? regex, description
+        end, (fn ({atom, _}) -> atom end)
     end
   end
 

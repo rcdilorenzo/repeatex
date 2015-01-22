@@ -10,6 +10,9 @@ defmodule TokenizerTest do
     end
 
     it "parses sequential days" do
+      Tokenizer.days("daily")
+        |> [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+
       Tokenizer.days("every week on mon-sat")
         |> [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
