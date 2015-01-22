@@ -1,6 +1,8 @@
 Repeatex
 ========
 
+![Repeatex](logo.png)
+
 Repeatex is still under active development and currently only supports parsing natural language into a data structure. Here's a simple example:
 
 ```elixir
