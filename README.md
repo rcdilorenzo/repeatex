@@ -5,13 +5,19 @@ Repeatex is still under active development and currently only supports parsing n
 
 ```elixir
 Repeatex.Parser.parse "daily"
-# > %Repeatex.Repeat{days: [:sunday, :monday, :tuesday, :wednesday, :thursday,
-      :friday, :saturday], frequency: 1, type: :weekly}
+#  %Repeatex.Repeat{days: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday], frequency: 1, type: :weekly}
+```
+
+# Installation
+
+As repeatex isn't finished yet, you'll need to specify this repository location to use in your projects:
+```elixir
+{:repeatex, github: "rcdilorenzo/repeatex"}
 ```
 
 # Contribution
 
-If you would like to contribute to the parser of other parts of this project, please check out the [demo](http://rcdilorenzo.github.io/repeatex), and find other expressions that still need to be worked on, filing issues as needed. Even better, feel free to tackle any issues in the repository by submitting a friendly pull-request. Thanks!
+If you would like to contribute to the parser of other parts of this project, please check out the [demo](http://rcdilorenzo.github.io/repeatex), and find other expressions that still need to be parsed, filing issues as needed. Even better, feel free to tackle any issues in the repository by submitting a friendly pull-request. Thanks!
 
 # Examples
 
