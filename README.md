@@ -1,6 +1,9 @@
 Repeatex
 ========
 
+![Test Status](https://travis-ci.org/rcdilorenzo/repeatex.svg)
+<br>
+
 ![Repeatex](logo.png)
 
 Repeatex is still under active development and currently only supports parsing natural language into a data structure. Here's a simple example:
