@@ -25,6 +25,7 @@ defmodule Repeatex.Tokenizer do
     december:  ~r/dec(ember)?/i,
   }
   @frequency %{
+    ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/ => 1,
     ~r/(each|every|of the) (week|month|year|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/ => 1,
     ~r/(daily|annually)/ => 1,
     ~r/(each|every)? ?other (week|month|year|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/ => 2,

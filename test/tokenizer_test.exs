@@ -62,6 +62,7 @@ defmodule TokenizerTest do
   it "determines the frequency" do
     Tokenizer.frequency("daily")                           |> 1
     Tokenizer.frequency("annually")                        |> 1
+    Tokenizer.frequency("wednesday")                       |> 1
     Tokenizer.frequency("every wednesday")                 |> 1
     Tokenizer.frequency("every other monday")              |> 2
     Tokenizer.frequency("thursdays bi-weekly")             |> 2
