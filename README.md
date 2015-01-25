@@ -60,6 +60,8 @@ If you would like to contribute to the parser of other parts of this project, pl
 
 # TODO - Parsing
 
+- [ ] "every day"
+- [ ] "every other day"
 - [ ] "weekly on thursdays"
 - [ ] "quarterly on the 1st of the month"
 - [ ] "on the third tuesday of each month"
