@@ -1,15 +1,7 @@
 defmodule Repeatex.Tokenizer do
   import Repeatex.Parser
+  import Repeatex.Helper
 
-  @days %{
-    sunday: ~r/sun(day)?/,
-    monday: ~r/mon(day)?/,
-    tuesday: ~r/tues?(day)?/,
-    wednesday: ~r/wedn?e?s?(day)?/,
-    thursday: ~r/thurs?(day)?/,
-    friday: ~r/fri(day)?/,
-    saturday: ~r/satu?r?(day)?/,
-  }
   @months %{
     january:   ~r/jan(uary)?/i,
     february:  ~r/feb(ruary)?/i,
@@ -25,16 +17,14 @@ defmodule Repeatex.Tokenizer do
     december:  ~r/dec(ember)?/i,
   }
   @frequency %{
-    ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/ => 1,
     ~r/(each|every|of the) (week|month|year|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/ => 1,
-    ~r/(daily|annually)/ => 1,
     ~r/(each|every)? ?other (week|month|year|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/ => 2,
     ~r/bi-(week|month|year)/ => 2,
+    ~r/(daily|annually|weekly)/ => 1,
     ~r/(?<digit>\d+).(week|month|year)/ => "digit"
   }
   @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?(?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)?/
   @yearly_days ~r/(?<month>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w* (?<day>\d+)/i
-  @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/
 
   def type(description) do
     cond do
@@ -56,19 +46,6 @@ defmodule Repeatex.Tokenizer do
     end
   end
 
-  def days(description) do
-    cond do
-      Regex.match?(~r/daily/, description) -> Repeatex.Repeat.all_days
-      sequential_days?(description) ->
-        %{"start" => first, "end" => second} = Regex.named_captures(@sequential, description)
-        Repeatex.Helper.seq_days(find_day(first), find_day(second))
-      true ->
-        @days |> Enum.filter_map fn ({_, regex}) ->
-          Regex.match? regex, description
-        end, (fn ({atom, _}) -> atom end)
-    end
-  end
-
   def monthly_days(description) do
     @monthly_days |> Regex.scan(description) |> Enum.map fn
       ([_, digit, _]) -> String.to_integer digit
@@ -79,16 +56,6 @@ defmodule Repeatex.Tokenizer do
   def yearly_days(description) do
     @yearly_days |> Regex.scan(description) |> Enum.map fn
       ([_, month, day]) -> {find_month(month), String.to_integer(day)}
-    end
-  end
-
-  def sequential_days?(description) do
-    Regex.match? @sequential, description
-  end
-
-  defp find_day(day_description) do
-    @days |> Enum.find_value fn ({atom, regex}) ->
-      if Regex.match?(regex, day_description), do: atom
     end
   end
 

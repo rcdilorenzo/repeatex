@@ -14,11 +14,8 @@ defmodule Repeatex.Parser do
         Tokenizer.yearly_days description
       :unknown -> []
     end
-    %Repeatex.Repeat{
-      type: type,
-      frequency: Tokenizer.frequency(description),
-      days: days
-    }
+    frequency = Tokenizer.frequency(description)
+    %Repeatex.Repeat{type: type, days: days, frequency: frequency}
   end
 
 
