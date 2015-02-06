@@ -1,39 +1,29 @@
 defmodule Repeatex.Parser do
   alias Repeatex.Tokenizer, as: Tokenizer
 
+  @modules [Daily, Weekly, Monthly]
+
   @all [ :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday ]
 
+  # def __using__(modules: modules \\ [Tokenizer.Weekly]) do
+  #   @modules modules
+  # end
+
   def parse(description) do
-    type = Tokenizer.type(description)
-    days = case type do
-      :weekly ->
-        Tokenizer.days description
-      :monthly ->
-        Tokenizer.monthly_days description
-      :yearly ->
-        Tokenizer.yearly_days description
-      :unknown -> []
-    end
-    frequency = Tokenizer.frequency(description)
-    %Repeatex.Repeat{type: type, days: days, frequency: frequency}
-  end
-
-
-  def weekly?(description) do
-    week_based = Regex.match?(~r/(daily|week(ly)?)/, description)
-    if !monthly?(description) and !yearly?(description) do
-      Repeatex.Tokenizer.days(description) != [] or week_based
-    else
-      week_based
+    @modules |> concat_modules |> Enum.find_value fn (module) ->
+      IO.puts "module: #{module}"
+      module.tokenize(description)
     end
   end
 
-  def monthly?(description) do
-    ~r/month/ |> Regex.match? description
-  end
-
-  def yearly?(description) do
-    ~r/(year|annual)/ |> Regex.match? description
+  defp concat_modules(modules) do
+    modules |> Enum.map fn (module) ->
+      try do
+        Module.safe_concat(Repeatex.Tokenizer, module)
+      rescue
+        ArgumentError -> module
+      end
+    end
   end
 
 end

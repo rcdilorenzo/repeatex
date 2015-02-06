@@ -1,13 +1,13 @@
 defmodule Repeatex.Tokenizer.Weekly do
-  alias Repeatex.Repeat
-  import Repeatex.Helper
+  use Repeatex.Helper
 
-  @frequency %{
-    ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/ => 1,
-    ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/ => 1,
-    ~r/bi-?weekly/ => 2,
-    ~r/(?<digit>\d+).(week)/ => "digit"
-  }
+  match_type :weekly, ~r/(daily|week(ly)?)/
+
+  match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/
+  match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/
+  match_freq "digit", ~r/(?<digit>\d+).(week)/
+  match_freq 2, ~r/weekly/
+  match_freq 2, ~r/bi-?weekly/
 
   @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/
 
@@ -20,21 +20,6 @@ defmodule Repeatex.Tokenizer.Weekly do
       %Repeat{days: days} when not is_list(days) -> nil
       %Repeat{days: days} = repeat ->
         if Enum.all?(days, &(&1 in Repeat.all_days)), do: repeat
-    end
-  end
-
-  defp type(description) do
-    if Regex.match?(~r/(daily|week(ly)?)/, description), do: :weekly
-  end
-
-  defp frequency(description) do
-    @frequency |> Enum.find_value fn
-      ({regex, freq}) when is_integer(freq) ->
-        if Regex.match?(regex, description), do: freq
-      ({regex, key}) when is_binary(key) ->
-        if Regex.match?(regex, description) do
-          Regex.named_captures(regex, description)[key] |> String.to_integer
-        end
     end
   end
 
