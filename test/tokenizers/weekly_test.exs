@@ -11,6 +11,7 @@ defmodule Tokenizers.WeeklyTest do
       Weekly.tokenize("every year") |> nil
       Weekly.tokenize("3rd of every month") |> nil
       Weekly.tokenize("I love weeks") |> nil
+      Weekly.tokenize("on the 3rd tuesday of every month") |> nil
     end
   end
 
@@ -18,6 +19,9 @@ defmodule Tokenizers.WeeklyTest do
     it "parses single day" do
       Weekly.tokenize("every week on thursday")
         |> equals %Repeat{days: [:thursday], type: :weekly, frequency: 1}
+
+      Weekly.tokenize("each wed")
+        |> equals %Repeat{days: [:wednesday], type: :weekly, frequency: 1}
     end
 
     it "parses sequential days" do

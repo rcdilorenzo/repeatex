@@ -9,11 +9,7 @@ Repeatex
 
 Repeatex is still under active development and currently only supports parsing natural language into a data structure. Here's a simple example:
 
-```elixir
-Repeatex.Parser.parse "daily"
-# %Repeatex.Repeat{days: [], frequency: 1, type: :daily}
-```
-
+<%= insert.("daily") %>
 
 # Installation
 
@@ -28,42 +24,11 @@ If you would like to contribute to the parser of other parts of this project, pl
 
 # Examples
 
-```elixir
-Repeatex.Parser.parse "every other day"
-# %Repeatex.Repeat{days: [], frequency: 2, type: :daily}
-```
-
-```elixir
-Repeatex.Parser.parse "each tues"
-# %Repeatex.Repeat{days: [:tuesday], frequency: 1, type: :weekly}
-```
-
-```elixir
-Repeatex.Parser.parse "mon-sat every week"
-# %Repeatex.Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], frequency: 1, type: :weekly}
-```
-
-```elixir
-Repeatex.Parser.parse "every 3rd of the month"
-# %Repeatex.Repeat{days: [3], frequency: 1, type: :monthly}
-```
-
-```elixir
-Repeatex.Parser.parse "1st and 3rd every 2 months"
-# %Repeatex.Repeat{days: [1, 3], frequency: 2, type: :monthly}
-```
-
-```elixir
-Repeatex.Parser.parse "on the 3rd tuesday of every month"
-# %Repeatex.Repeat{days: [{3, :tuesday}], frequency: 1, type: :monthly}
-```
-
+<%= examples %>
 
 # TODO - Parsing
 
-- [ ] "weekly on thursdays"
-- [ ] "1st of every quarter"
-- [ ] "on the third tuesday of each month"
+<%= pending %>
 
 # Roadmap
 

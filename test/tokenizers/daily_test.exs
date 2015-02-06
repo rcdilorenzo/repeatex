@@ -10,6 +10,7 @@ defmodule Tokenizers.DailyTest do
       Daily.tokenize("mon-sat every week") |> nil
       Daily.tokenize("every year") |> nil
       Daily.tokenize("3rd of every month") |> nil
+      Daily.tokenize("every other monday") |> nil
       Daily.tokenize("I love days") |> nil
     end
   end

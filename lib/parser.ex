@@ -11,7 +11,6 @@ defmodule Repeatex.Parser do
 
   def parse(description) do
     @modules |> concat_modules |> Enum.find_value fn (module) ->
-      IO.puts "module: #{module}"
       module.tokenize(description)
     end
   end

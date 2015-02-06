@@ -24,6 +24,9 @@ defmodule Tokenizers.MonthlyTest do
     it "parses day numbers" do
       Monthly.tokenize("every month on the 1st and 3rd")
         |> equals %Repeat{days: [1, 3], type: :monthly, frequency: 1}
+
+      Monthly.tokenize("on the 3rd tuesday of every month")
+        |> equals %Repeat{days: [{3, :tuesday}], type: :monthly, frequency: 1}
     end
 
     it "gets correct day order" do

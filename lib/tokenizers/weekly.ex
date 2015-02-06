@@ -1,7 +1,7 @@
 defmodule Repeatex.Tokenizer.Weekly do
   use Repeatex.Helper
 
-  match_type :weekly, ~r/(daily|week(ly)?)/
+  match_type :weekly, ~r/(each|every|bi-?|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| ))/
 
   match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/
   match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/

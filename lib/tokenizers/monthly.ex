@@ -9,7 +9,7 @@ defmodule Repeatex.Tokenizer.Monthly do
   match_freq 2, ~r/(each|every).other.month/
   match_freq "digit", ~r/(?<digit>\d+).month/
 
-  @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?(?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)?/
+  @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?((?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| ))?/
 
   def tokenize(nil), do: nil
   def tokenize(description) do
@@ -26,7 +26,7 @@ defmodule Repeatex.Tokenizer.Monthly do
   def days(description) do
     @monthly_days |> Regex.scan(description) |> Enum.map(fn
       ([_, digit, _]) -> String.to_integer digit
-      ([_, digit, _, day_desc]) -> {String.to_integer(digit), find_day(day_desc)}
+      ([_, digit, _, day_desc | _]) -> {String.to_integer(digit), find_day(day_desc)}
     end) |> sort_days
   end
 

@@ -12,7 +12,7 @@ defmodule Tokenizers.YearlyTest do
       Yearly.tokenize("I love years") |> nil
     end
 
-    it "only allows max days based on month"
+    # it "only allows max days based on month"
   end
 
   facts "tokenize" do
