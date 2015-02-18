@@ -1,32 +1,21 @@
 defmodule Repeatex.Helper do
 
-  @day_patterns %{
-    sunday: ~r/sun(day)?/,
-    monday: ~r/mon(day)?/,
-    tuesday: ~r/tues?(day)?/,
-    wednesday: ~r/wedn?e?s?(day)?/,
-    thursday: ~r/thurs?(day)?/,
-    friday: ~r/fri(day)?/,
-    saturday: ~r/satu?r?(day)?/,
-  }
+  @external_resource metadata = "lib/metadata.json"
+  @data File.read!(metadata) |> Poison.decode!
 
-  @months %{
-    january:   ~r/jan(uary)?/i,
-    february:  ~r/feb(ruary)?/i,
-    march:     ~r/mar(ch)?/i,
-    april:     ~r/apr(il)?/i,
-    may:       ~r/may/i,
-    june:      ~r/june?/i,
-    july:      ~r/july?/i,
-    august:    ~r/aug(ust)?/i,
-    september: ~r/sep(tember)?/i,
-    october:   ~r/oct(uary)?/i,
-    november:  ~r/nov(ember)?/i,
-    december:  ~r/dec(ember)?/i,
-  }
+  @day_patterns Enum.map @data["day_patterns"], fn ({key, value}) ->
+    {String.to_atom(key), Regex.compile!(value)}
+  end
 
-  @days [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  @months Enum.map @data["month_patterns"], fn ({key, value}) ->
+    {String.to_atom(key), Regex.compile!(value, "i")}
+  end
+
+  @monthlist Enum.map @data["months"], &String.to_atom/1
+  @days Enum.map @data["days"], &String.to_atom/1
+
   @days_index Enum.reduce(@days, %{}, fn (day, map) -> Map.put(map, day, Enum.find_index(@days, &(&1 == day))) end)
+
 
   defmacro __using__(_opts) do
     quote do
@@ -90,7 +79,7 @@ defmodule Repeatex.Helper do
 
 
   def valid_month?(month) when is_atom(month) do
-    month in Map.keys(@months)
+    month in @monthlist
   end
 
 
