@@ -1,0 +1,48 @@
+{
+  "day_patterns": {
+    "sunday": "sun(day)?",
+    "monday": "mon(day)?",
+    "tuesday": "tues?(day)?",
+    "wednesday": "wedn?e?s?(day)?",
+    "thursday": "thurs?(day)?",
+    "friday": "fri(day)?",
+    "saturday": "satu?r?(day)?"
+  },
+  "month_patterns": {
+    "january":   "jan(uary)?",
+    "february":  "feb(ruary)?",
+    "march":     "mar(ch)?",
+    "april":     "apr(il)?",
+    "may":       "may",
+    "june":      "june?",
+    "july":      "july?",
+    "august":    "aug(ust)?",
+    "september": "sep(tember)?",
+    "october":   "oct(uary)?",
+    "november":  "nov(ember)?",
+    "december":  "dec(ember)?"
+  },
+  "months": [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"
+  ],
+  "days": [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday"
+  ]
+}
