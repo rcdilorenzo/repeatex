@@ -34,6 +34,11 @@ Repeatex.Parser.parse "every other day"
 ```
 
 ```elixir
+Repeatex.Parser.parse "every other monday"
+# %Repeatex.Repeat{days: [:monday], frequency: 2, type: :weekly}
+```
+
+```elixir
 Repeatex.Parser.parse "each tues"
 # %Repeatex.Repeat{days: [:tuesday], frequency: 1, type: :weekly}
 ```
