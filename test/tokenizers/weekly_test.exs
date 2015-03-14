@@ -23,6 +23,9 @@ defmodule Tokenizers.WeeklyTest do
       Weekly.tokenize("every week on thursday")
         |> equals %Repeat{days: [:thursday], type: :weekly, frequency: 1}
 
+      Weekly.tokenize("on thursdays")
+        |> equals %Repeat{days: [:thursday], type: :weekly, frequency: 1}
+
       Weekly.tokenize("each wed")
         |> equals %Repeat{days: [:wednesday], type: :weekly, frequency: 1}
     end

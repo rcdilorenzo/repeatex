@@ -1,13 +1,13 @@
 defmodule Repeatex.Tokenizer.Weekly do
   use Repeatex.Helper
 
-  match_type :weekly, ~r/(each|every|bi-?|other|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| |-))/
+  match_type :weekly, ~r/(each|every|bi-?|other|on|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| |-))/
 
   match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/
   match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/
   match_freq 2, ~r/(each|every|of the) other (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/
   match_freq "digit", ~r/(?<digit>\d+).(week)/
-  match_freq 1, ~r/weekly/
+  match_freq 1, ~r/(on|weekly)/
   match_freq 2, ~r/bi-?weekly/
 
   @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/
