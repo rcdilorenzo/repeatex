@@ -28,6 +28,9 @@ defmodule Tokenizers.WeeklyTest do
     end
 
     it "parses sequential days" do
+      Weekly.tokenize("mon-sat weekly")
+        |> equals %Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
+
       Weekly.tokenize("every week on mon-sat")
         |> equals %Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
 
