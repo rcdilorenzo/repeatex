@@ -7,7 +7,7 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-Repeatex is still under active development and currently only supports parsing natural language into a data structure. Here's a simple example:
+Repeatex is still under active development. See the roadmap for the current features in progress or planned.
 
 <%= insert.("daily") %>
 
@@ -33,9 +33,9 @@ If you would like to contribute to the parser of other parts of this project, pl
 # Roadmap
 
 - [ ] Parsing natural language - **in progress**
-- [ ] Validate parsed structure
+- [ ] Validate parsed structure - **in progress**
 - [ ] Scheduler to determine next date
-- [ ] Output natural description of repeat
+- [ ] Output natural description of repeat - **in progress**
 
 # License
 
