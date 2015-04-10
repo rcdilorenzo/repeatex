@@ -1,6 +1,6 @@
 defmodule Formatters.DailyTest do
   use Amrita.Sweet
-  alias Repeatex.Tokenizer.Daily
+  alias Repeatex.Formatter.Daily
   alias Repeatex.Repeat
 
   facts "formatting" do
