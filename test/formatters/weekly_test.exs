@@ -6,16 +6,16 @@ defmodule Formatters.WeeklyTest do
   facts "formatting" do
     it "should print description of a repeat" do
       Weekly.format(%Repeat{days: [:monday, :tuesday], type: :weekly, frequency: 1})
-        |> equals "Monday and Tuesday every week"
+        |> equals "Mon and Tue every week"
 
       Weekly.format(%Repeat{days: [:monday, :tuesday, :wednesday], type: :weekly, frequency: 1})
-        |> equals "Monday, Tuesday, and Wednesday every week"
+        |> equals "Mon, Tue, and Wed every week"
 
       Weekly.format(%Repeat{days: [:monday, :tuesday, :wednesday], type: :weekly, frequency: 2})
-        |> equals "Monday, Tuesday, and Wednesday every other week"
+        |> equals "Mon, Tue, and Wed every other week"
 
       Weekly.format(%Repeat{days: [:tuesday, :wednesday], type: :weekly, frequency: 3})
-        |> equals "Tuesday and Wednesday every 3 weeks"
+        |> equals "Tue and Wed every 3 weeks"
     end
   end
 

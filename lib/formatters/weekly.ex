@@ -35,7 +35,7 @@ defmodule Repeatex.Formatter.Weekly do
   defp days([], _), do: ""
 
   defp atom_to_day_string(atom) do
-    atom |> Atom.to_string |> capitalize
+    atom |> Atom.to_string |> slice(0..2) |> capitalize
   end
 
 end
