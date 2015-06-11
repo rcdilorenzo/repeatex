@@ -72,10 +72,10 @@ Repeatex.Parser.parse "on the 3rd tuesday of every month"
 
 # Roadmap
 
-- [ ] Parsing natural language - **in progress**
-- [ ] Validate parsed structure - **in progress**
-- [ ] Scheduler to determine next date
-- [ ] Output natural description of repeat - **in progress**
+- [ ] Parsing natural language
+- [ ] Validate parsed structure
+- [ ] Scheduler to determine next date - **in progress**
+- [ ] Output natural description of repeat
 
 # License
 
