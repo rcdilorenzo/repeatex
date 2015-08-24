@@ -9,12 +9,13 @@ defmodule Repeatex.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :poison]]
+    [applications: [:logger, :poison, :edate]]
   end
 
   defp deps do
     [
       {:amrita, "~> 0.4", github: "josephwilk/amrita"},
+      {:edate, github: "dweldon/edate"},
       {:poison, "~> 1.3.1"}
     ]
   end
