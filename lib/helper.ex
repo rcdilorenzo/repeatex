@@ -77,6 +77,17 @@ defmodule Repeatex.Helper do
     end, (fn ({atom, _}) -> atom end)
   end
 
+  def next_day_of_week(day) do
+    case @days_index[day] + 1 do
+      index when index > 6 -> Enum.at @days, index - 7
+      index -> Enum.at @days, index
+    end
+  end
+
+  def index_of_day(day) do
+    @days_index[day]
+  end
+
 
   def valid_month?(month) when is_atom(month) do
     month in @monthlist
