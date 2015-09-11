@@ -7,7 +7,7 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-Repeatex is still under active development. See the roadmap for the current features in progress or planned.
+Repeatex is still under active development. See the roadmap for the current features in progress or planned. The scheduler is now in progress and parsing and formatting is at a stable version.
 
 <%= insert.("daily") %>
 
@@ -32,10 +32,10 @@ If you would like to contribute to the parser of other parts of this project, pl
 
 # Roadmap
 
-- [ ] Parsing natural language
-- [ ] Validate parsed structure
+- [x] Parsing natural language
+- [x] Validate parsed structure
 - [ ] Scheduler to determine next date - **in progress**
-- [ ] Output natural description of repeat
+- [x] Output natural description of repeat
 
 # License
 
