@@ -7,7 +7,7 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-Repeatex is still under active development. See the roadmap for the current features in progress or planned. The scheduler is now in progress and parsing and formatting is at a stable version.
+See the roadmap for the current features in progress or planned. The scheduler is now in progress while parsing and formatting is already at a stable version.
 
 ```elixir
 Repeatex.Parser.parse "daily"
@@ -72,7 +72,7 @@ Repeatex.Parser.parse "on the 3rd tuesday of every month"
 
 # Roadmap
 
-- [ ] Parsing natural language
+- [x] Parsing natural language
 - [x] Validate parsed structure
 - [ ] Scheduler to determine next date - **in progress**
 - [x] Output natural description of repeat
