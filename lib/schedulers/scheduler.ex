@@ -9,4 +9,8 @@ defmodule Repeatex.Scheduler do
     end
   end
 
+  def next_number(list, integer) do
+    Enum.find(list, List.first(list), fn(x) -> x > integer end)
+  end
+
 end
