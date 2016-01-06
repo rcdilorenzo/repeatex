@@ -24,28 +24,65 @@ defmodule Mix.Tasks.Repeatex.Readme do
   ]
 
   def run(_) do
-    examples = @examples |> Enum.filter(&Repeatex.Parser.parse/1)
-                         |> Enum.map(&insert/1)
+    examples = @examples |> Enum.filter(&Repeatex.parse/1)
+                         |> Enum.map(&parse/1)
                          |> Enum.join("\n")
     pending = @pending |> Enum.map(&( "- [ ] \"#{&1}\""))
                        |> Enum.join("\n")
     content = EEx.eval_file(@readme_eex, [
-      insert: &insert/1, examples: examples, pending: pending
+      parse: &parse/1,
+      schedule: &schedule/2,
+      format: &format/1,
+      today: today,
+      examples: examples, pending: pending
     ])
     File.write!(@readme, content)
   end
 
-  def insert(description) do
+  def parse(description) do
     """
     ```elixir
-    Repeatex.Parser.parse "#{description}"
-    # #{Repeatex.Parser.parse(description) |> to_str}
+    Repeatex.parse("#{description}")
+    # #{Repeatex.parse(description) |> pretty_format}
     ```
     """
   end
 
+  def schedule(repeatex, date) do
+    """
+    ```elixir
+    repeatex = #{repeatex |> to_str}
+    Repeatex.next_date(repeatex, #{date |> to_str}) # => #{Repeatex.next_date(repeatex, date) |> to_str}
+    ```
+    """
+  end
+
+  def format(repeatex) do
+    """
+    ```elixir
+    repeatex = #{repeatex |> to_str}
+    Repeatex.description(repeatex)
+    # => #{Repeatex.description(repeatex) |> to_str}
+    ```
+    """
+  end
+
+  def today do
+    {date, _} = :calendar.local_time
+    date
+  end
+
   def to_str(item, opts \\ []) do
     opts = struct(Inspect.Opts, opts)
-    Inspect.Algebra.format(Inspect.Algebra.to_doc(item, opts), 500)
+    Inspect.Algebra.format(Inspect.Algebra.to_doc(item, opts), 100)
+      |> to_string
+  end
+
+  def pretty_format(item) do
+    Apex.Format.format(item, color: false)
+      |> String.replace("\n", "\n# ")
+      |> String.replace("Elixir.", "")
+      |> String.replace(~r/\[.\]\s/, "")
+      |> String.slice(0..-4)
   end
 end

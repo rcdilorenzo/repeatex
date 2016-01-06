@@ -1,6 +1,6 @@
-defmodule SchedulerTest do
+defmodule HelperTest do
   use Amrita.Sweet
-  import Repeatex.Scheduler
+  import Repeatex.Helper
 
   it "determines next day of week" do
     next_allowed_day(:monday, [:tuesday, :saturday]) |> equals :tuesday

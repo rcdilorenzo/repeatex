@@ -1,10 +1,9 @@
 defmodule Repeatex.Scheduler.Monthly do
-  alias Repeatex.Repeat
-  alias Repeatex.Scheduler
+  @behaviour Repeatex.Scheduler
   import Repeatex.Helper
 
-  def next_date(%Repeat{days: [{_, _} | _] = days, type: :monthly, frequency: frequency}, date) when is_integer(frequency) do
-    date_in_month = {year, month, day} = case frequency do
+  def next_date(%Repeatex{days: [{_, _} | _] = days, type: :monthly, frequency: frequency}, date) when is_integer(frequency) do
+    date_in_month = {year, month, _} = case frequency do
       1 -> date
       _ -> :edate.shift(date, frequency, :month)
     end
@@ -20,8 +19,8 @@ defmodule Repeatex.Scheduler.Monthly do
       |> Enum.find(&(:edate.is_after(&1, date)))
   end
 
-  def next_date(%Repeat{days: days, type: :monthly, frequency: frequency}, {_, _, day} = date) when is_integer(frequency) do
-    case Scheduler.next_number(days, day) - day do
+  def next_date(%Repeatex{days: days, type: :monthly, frequency: frequency}, {_, _, day} = date) when is_integer(frequency) do
+    case next_number(days, day) - day do
       diff when diff < 0 ->
         :edate.shift(date, diff, :days)
           |> :edate.shift(frequency, :month)

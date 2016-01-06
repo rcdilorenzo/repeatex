@@ -1,7 +1,6 @@
 defmodule Tokenizers.WeeklyTest do
   use Amrita.Sweet
   alias Repeatex.Tokenizer.Weekly
-  alias Repeatex.Repeat
 
   facts "validation" do
     it "should return nil when invalid" do
@@ -18,33 +17,33 @@ defmodule Tokenizers.WeeklyTest do
   facts "tokenize" do
     it "parses single day" do
       Weekly.tokenize("every other monday")
-        |> equals %Repeat{days: [:monday], type: :weekly, frequency: 2}
+        |> equals %Repeatex{days: [:monday], type: :weekly, frequency: 2}
 
       Weekly.tokenize("every week on thursday")
-        |> equals %Repeat{days: [:thursday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:thursday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("on thursdays")
-        |> equals %Repeat{days: [:thursday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:thursday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("each wed")
-        |> equals %Repeat{days: [:wednesday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:wednesday], type: :weekly, frequency: 1}
     end
 
     it "parses sequential days" do
       Weekly.tokenize("mon-sat weekly")
-        |> equals %Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("every week on mon-sat")
-        |> equals %Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("every week on fri-sun")
-        |> equals %Repeat{days: [:sunday, :friday, :saturday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:sunday, :friday, :saturday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("every week on fri-mon")
-        |> equals %Repeat{days: [:sunday, :monday, :friday, :saturday], type: :weekly, frequency: 1}
+        |> equals %Repeatex{days: [:sunday, :monday, :friday, :saturday], type: :weekly, frequency: 1}
 
       Weekly.tokenize("biweekly on sat")
-        |> equals %Repeat{days: [:saturday], type: :weekly, frequency: 2}
+        |> equals %Repeatex{days: [:saturday], type: :weekly, frequency: 2}
     end
   end
 

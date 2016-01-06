@@ -7,9 +7,25 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-Repeatex is still under active development. See the roadmap for the current features in progress or planned. The scheduler is now in progress and parsing and formatting is at a stable version.
+Repeatex is a library for parsing, scheduling, and formatting repeating events. It handles many different expressions from "daily" to "on the 2nd tuesday and 4rd thursday of every other month". See [Usage](#usage) and [Examples](#example) for more detail.
 
-<%= insert.("daily") %>
+# Usage
+
+## Parsing
+
+<%= parse.("mon-sat every week") %>
+<%= parse.("mumbo jumbo") %>
+
+## Scheduling
+
+<%= schedule.(Repeatex.parse("every other day"), today) %>
+<%= schedule.(Repeatex.parse("mon and fri every other week"), today) %>
+<%= schedule.(Repeatex.parse("on the 3rd tuesday of every month"), today) %>
+
+## Formatting
+
+<%= format.(Repeatex.parse("on the 3rd tuesday of every month")) %>
+<%= format.(Repeatex.parse("every week on monday")) %>
 
 # Installation
 
@@ -34,12 +50,12 @@ If you would like to contribute to the parser of other parts of this project, pl
 
 - [x] Parsing natural language
 - [x] Validate parsed structure
-- [ ] Scheduler to determine next date - **in progress**
+- [ ] Scheduler to determine next date - **Daily, Weekly, and Monthly are done**
 - [x] Output natural description of repeat
 
 # License
 
-Copyright (c) 2015 Christian Di Lorenzo
+Copyright (c) 2015-2016 Christian Di Lorenzo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,11 +1,11 @@
 defmodule Repeatex.Formatter.Monthly do
-  alias Repeatex.Repeat
+  @behaviour Repeatex.Formatter
   import String
 
-  def format(%Repeat{} = repeat) do
+  def format(repeat) do
     case repeat do
-      %Repeat{type: type} when type != :monthly -> nil
-      %Repeat{frequency: freq, days: days} ->
+      %Repeatex{type: type} when type != :monthly -> nil
+      %Repeatex{frequency: freq, days: days} ->
         days(days, Enum.count(days)) <> " " <> freq(freq)
       _ -> nil
     end
@@ -15,6 +15,10 @@ defmodule Repeatex.Formatter.Monthly do
   defp freq(2), do: "every other month"
   defp freq(num) when is_integer(num) do
     "every #{num} months"
+  end
+
+  defp days([day], _) do
+    to_day_string(day)
   end
 
   defp days([day | [tail]], 2) do
@@ -29,9 +33,6 @@ defmodule Repeatex.Formatter.Monthly do
     to_day_string(day) <> ", " <> days(tail, count)
   end
 
-  defp days([day], _) when is_atom(day) do
-    to_day_string(day)
-  end
   defp days([], _), do: ""
 
   defp to_day_string(num) when is_integer(num) do

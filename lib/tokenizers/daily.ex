@@ -1,4 +1,5 @@
 defmodule Repeatex.Tokenizer.Daily do
+  @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
   match_type :daily, ~r/(days?|daily)/
@@ -9,9 +10,9 @@ defmodule Repeatex.Tokenizer.Daily do
 
   def tokenize(nil), do: nil
   def tokenize(description) do
-    case %Repeat{type: type(description), frequency: frequency(description)} do
-      %Repeat{frequency: nil} -> nil
-      %Repeat{type: type} when type != :daily -> nil
+    case %Repeatex{type: type(description), frequency: frequency(description)} do
+      %Repeatex{frequency: nil} -> nil
+      %Repeatex{type: type} when type != :daily -> nil
       repeat -> repeat
     end
   end

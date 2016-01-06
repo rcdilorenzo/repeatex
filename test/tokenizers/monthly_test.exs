@@ -1,7 +1,6 @@
 defmodule Tokenizers.MonthlyTest do
   use Amrita.Sweet
   alias Repeatex.Tokenizer.Monthly
-  alias Repeatex.Repeat
 
   facts "validation" do
     it "should return nil when invalid" do
@@ -23,26 +22,26 @@ defmodule Tokenizers.MonthlyTest do
 
     it "parses day numbers" do
       Monthly.tokenize("every month on the 1st and 3rd")
-        |> equals %Repeat{days: [1, 3], type: :monthly, frequency: 1}
+        |> equals %Repeatex{days: [1, 3], type: :monthly, frequency: 1}
 
       Monthly.tokenize("on the 3rd tuesday of every month")
-        |> equals %Repeat{days: [{3, :tuesday}], type: :monthly, frequency: 1}
+        |> equals %Repeatex{days: [{3, :tuesday}], type: :monthly, frequency: 1}
     end
 
     it "gets correct day order" do
       Monthly.tokenize("every month on the 9th and 1st")
-        |> equals %Repeat{days: [1, 9], type: :monthly, frequency: 1}
+        |> equals %Repeatex{days: [1, 9], type: :monthly, frequency: 1}
 
       Monthly.tokenize("every month on 3rd tuesday and 2nd thursday")
-        |> equals %Repeat{days: [{2, :thursday}, {3, :tuesday}], type: :monthly, frequency: 1}
+        |> equals %Repeatex{days: [{2, :thursday}, {3, :tuesday}], type: :monthly, frequency: 1}
     end
 
     it "get frequency properly with words" do
       Monthly.tokenize("bi-monthly on the 9th and 1st")
-        |> equals %Repeat{days: [1, 9], type: :monthly, frequency: 2}
+        |> equals %Repeatex{days: [1, 9], type: :monthly, frequency: 2}
 
       Monthly.tokenize("every 3rd tues of every other month")
-        |> equals %Repeat{days: [{3, :tuesday}], type: :monthly, frequency: 2}
+        |> equals %Repeatex{days: [{3, :tuesday}], type: :monthly, frequency: 2}
     end
   end
 

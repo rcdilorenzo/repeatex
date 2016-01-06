@@ -1,4 +1,5 @@
 defmodule Repeatex.Tokenizer.Yearly do
+  @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
   match_type :yearly, ~r/(year|annual)/
@@ -13,12 +14,12 @@ defmodule Repeatex.Tokenizer.Yearly do
 
   def tokenize(nil), do: nil
   def tokenize(description) do
-    case %Repeat{type: type(description), days: days(description), frequency: frequency(description)} do
-      %Repeat{frequency: nil} -> nil
-      %Repeat{days: []} -> nil
-      %Repeat{type: type} when type != :yearly -> nil
-      %Repeat{days: days} when not is_list(days) -> nil
-      %Repeat{days: days} = repeat ->
+    case %Repeatex{type: type(description), days: days(description), frequency: frequency(description)} do
+      %Repeatex{frequency: nil} -> nil
+      %Repeatex{days: []} -> nil
+      %Repeatex{type: type} when type != :yearly -> nil
+      %Repeatex{days: days} when not is_list(days) -> nil
+      %Repeatex{days: days} = repeat ->
         if valid_days?(days), do: repeat
     end
   end
@@ -30,9 +31,7 @@ defmodule Repeatex.Tokenizer.Yearly do
   end
 
   defp valid_days?(days) do
-    Enum.all? days, fn
-      ({month, day}) -> valid_month?(month)
-    end
+    Enum.all?(days, fn ({month, _}) -> valid_month?(month) end)
   end
 
 end

@@ -1,7 +1,6 @@
 defmodule Schedulers.MonthlyTest do
   use ExUnit.Case
   alias Repeatex.Scheduler.Monthly
-  alias Repeatex.Repeat
 
   test "schedules numbered days of the month" do
     assert Monthly.next_date(repeat([1, 3], 1), {2015, 1, 4}) == {2015, 2, 1}
@@ -26,7 +25,7 @@ defmodule Schedulers.MonthlyTest do
   end
 
   defp repeat(days, frequency) do
-    %Repeat{days: days, type: :monthly, frequency: frequency}
+    %Repeatex{days: days, type: :monthly, frequency: frequency}
   end
 
 end

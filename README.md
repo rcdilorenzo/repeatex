@@ -7,11 +7,64 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-See the roadmap for the current features in progress or planned. The scheduler is now in progress while parsing and formatting is already at a stable version.
+Repeatex is a library for parsing, scheduling, and formatting repeating events. It handles many different expressions from "daily" to "on the 2nd tuesday and 4rd thursday of every other month". See [Usage](#usage) and [Examples](#example) for more detail.
+
+# Usage
+
+## Parsing
 
 ```elixir
-Repeatex.Parser.parse "daily"
-# %Repeatex.Repeat{days: [], frequency: 1, type: :daily}
+Repeatex.parse("mon-sat every week")
+# %Repeatex{
+#   days: [
+#     monday
+#     tuesday
+#     wednesday
+#     thursday
+#     friday
+#     saturday
+#   ]
+#   frequency: 1
+#   type: weekly
+# }
+```
+
+```elixir
+Repeatex.parse("mumbo jumbo")
+# nil
+```
+
+
+## Scheduling
+
+```elixir
+repeatex = %Repeatex{days: [], frequency: 2, type: :daily}
+Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 7}
+```
+
+```elixir
+repeatex = %Repeatex{days: [:friday, :monday], frequency: 2, type: :weekly}
+Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 8}
+```
+
+```elixir
+repeatex = %Repeatex{days: [{3, :tuesday}], frequency: 1, type: :monthly}
+Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 19}
+```
+
+
+## Formatting
+
+```elixir
+repeatex = %Repeatex{days: [{3, :tuesday}], frequency: 1, type: :monthly}
+Repeatex.description(repeatex)
+# => "3rd Tue every month"
+```
+
+```elixir
+repeatex = %Repeatex{days: [:monday], frequency: 1, type: :weekly}
+Repeatex.description(repeatex)
+# => "Every week on Mon"
 ```
 
 
@@ -29,38 +82,88 @@ If you would like to contribute to the parser of other parts of this project, pl
 # Examples
 
 ```elixir
-Repeatex.Parser.parse "every other day"
-# %Repeatex.Repeat{days: [], frequency: 2, type: :daily}
+Repeatex.parse("every other day")
+# %Repeatex{
+#   days: [
+#   ]
+#   frequency: 2
+#   type: daily
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "every other monday"
-# %Repeatex.Repeat{days: [:monday], frequency: 2, type: :weekly}
+Repeatex.parse("every other monday")
+# %Repeatex{
+#   days: [
+#     monday
+#   ]
+#   frequency: 2
+#   type: weekly
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "each tues"
-# %Repeatex.Repeat{days: [:tuesday], frequency: 1, type: :weekly}
+Repeatex.parse("each tues")
+# %Repeatex{
+#   days: [
+#     tuesday
+#   ]
+#   frequency: 1
+#   type: weekly
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "mon-sat every week"
-# %Repeatex.Repeat{days: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday], frequency: 1, type: :weekly}
+Repeatex.parse("mon-sat every week")
+# %Repeatex{
+#   days: [
+#     monday
+#     tuesday
+#     wednesday
+#     thursday
+#     friday
+#     saturday
+#   ]
+#   frequency: 1
+#   type: weekly
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "every 3rd of the month"
-# %Repeatex.Repeat{days: [3], frequency: 1, type: :monthly}
+Repeatex.parse("every 3rd of the month")
+# %Repeatex{
+#   days: [
+#     3
+#   ]
+#   frequency: 1
+#   type: monthly
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "1st and 3rd every 2 months"
-# %Repeatex.Repeat{days: [1, 3], frequency: 2, type: :monthly}
+Repeatex.parse("1st and 3rd every 2 months")
+# %Repeatex{
+#   days: [
+#     1
+#     3
+#   ]
+#   frequency: 2
+#   type: monthly
+# }
 ```
 
 ```elixir
-Repeatex.Parser.parse "on the 3rd tuesday of every month"
-# %Repeatex.Repeat{days: [{3, :tuesday}], frequency: 1, type: :monthly}
+Repeatex.parse("on the 3rd tuesday of every month")
+# %Repeatex{
+#   days: [
+#     {
+#       3
+#       tuesday
+#     }
+#   ]
+#   frequency: 1
+#   type: monthly
+# }
 ```
 
 
@@ -74,12 +177,12 @@ Repeatex.Parser.parse "on the 3rd tuesday of every month"
 
 - [x] Parsing natural language
 - [x] Validate parsed structure
-- [ ] Scheduler to determine next date - **in progress**
+- [ ] Scheduler to determine next date - **Daily, Weekly, and Monthly are done**
 - [x] Output natural description of repeat
 
 # License
 
-Copyright (c) 2015 Christian Di Lorenzo
+Copyright (c) 2015-2016 Christian Di Lorenzo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -19,8 +19,7 @@ defmodule Repeatex.Helper do
 
   defmacro __using__(_opts) do
     quote do
-      import unquote(__MODULE__)
-      alias Repeatex.Repeat
+      import Repeatex.Helper
 
       Module.register_attribute __MODULE__, :frequency_matches, accumulate: true
       @before_compile unquote(__MODULE__)
@@ -56,6 +55,11 @@ defmodule Repeatex.Helper do
     end
   end
 
+  def modules do
+    Application.get_env(Repeatex, :modules, [Daily, Weekly, Monthly])
+  end
+
+  def all_days, do: @days
 
   def seq_days(start, end_day) when start in @days and end_day in @days do
     @days |> Enum.filter &in_day_range?(@days_index[&1], @days_index[start], @days_index[end_day])
@@ -88,11 +92,41 @@ defmodule Repeatex.Helper do
     @days_index[day]
   end
 
-
   def valid_month?(month) when is_atom(month) do
     month in @monthlist
   end
 
+  def next_allowed_day(day_of_week, allowed_days) do
+    day = next_day_of_week(day_of_week)
+    case Enum.member?(allowed_days, day) do
+      true -> day
+      false -> next_allowed_day day, allowed_days
+    end
+  end
+
+  def next_number(list, integer) do
+    Enum.find(list, List.first(list), fn(x) -> x > integer end)
+  end
+
+  def concat_modules(base_module) do
+    modules |> Enum.map(fn (module) ->
+      try do
+        Module.safe_concat(base_module, module)
+      rescue
+        ArgumentError -> nil
+      end
+    end) |> Enum.reject(&(&1 == nil))
+  end
+
+  def convert_and_concat(base_module, type) when is_atom(type) do
+    try do
+      module = type |> to_string
+        |> Mix.Utils.camelize
+        |> String.to_atom
+      Module.safe_concat(base_module, module)
+    rescue ArgumentError -> nil
+    end
+  end
 
 
   defp in_day_range?(index, first_index, second_index) when first_index > second_index do

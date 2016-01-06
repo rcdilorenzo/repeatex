@@ -1,4 +1,5 @@
 defmodule Repeatex.Tokenizer.Monthly do
+  @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
   match_type :monthly, ~r/month(ly)?/
@@ -13,12 +14,12 @@ defmodule Repeatex.Tokenizer.Monthly do
 
   def tokenize(nil), do: nil
   def tokenize(description) do
-    case %Repeat{type: type(description), days: days(description), frequency: frequency(description)} do
-      %Repeat{frequency: nil} -> nil
-      %Repeat{days: []} -> nil
-      %Repeat{type: type} when type != :monthly -> nil
-      %Repeat{days: days} when not is_list(days) -> nil
-      %Repeat{days: days} = repeat ->
+    case %Repeatex{type: type(description), days: days(description), frequency: frequency(description)} do
+      %Repeatex{frequency: nil} -> nil
+      %Repeatex{days: []} -> nil
+      %Repeatex{type: type} when type != :monthly -> nil
+      %Repeatex{days: days} when not is_list(days) -> nil
+      %Repeatex{days: days} = repeat ->
         if valid_days?(days), do: repeat
     end
   end
@@ -38,10 +39,10 @@ defmodule Repeatex.Tokenizer.Monthly do
   end
 
   defp valid_days?(days) do
-    Enum.all? days, fn
-      ({week, day}) -> week <= 4
+    Enum.all?(days, fn
+      ({week, _}) -> week <= 4
       (day) -> day <= 31
-    end
+    end)
   end
 
 end

@@ -1,7 +1,6 @@
 defmodule Tokenizers.DailyTest do
   use Amrita.Sweet
   alias Repeatex.Tokenizer.Daily
-  alias Repeatex.Repeat
 
   facts "validation" do
     it "should return nil when invalid" do
@@ -18,10 +17,10 @@ defmodule Tokenizers.DailyTest do
   facts "tokenize" do
     it "parses day expression" do
       Daily.tokenize("every other day")
-        |> equals %Repeat{days: [], type: :daily, frequency: 2}
+        |> equals %Repeatex{days: [], type: :daily, frequency: 2}
 
       Daily.tokenize("every day")
-        |> equals %Repeat{days: [], type: :daily, frequency: 1}
+        |> equals %Repeatex{days: [], type: :daily, frequency: 1}
 
       Daily.tokenize("daily")
         |> equals Daily.tokenize("every day")
@@ -29,10 +28,10 @@ defmodule Tokenizers.DailyTest do
 
     it "parses number" do
       Daily.tokenize("every 5 days")
-        |> equals %Repeat{days: [], type: :daily, frequency: 5}
+        |> equals %Repeatex{days: [], type: :daily, frequency: 5}
 
       Daily.tokenize("every 23rd day")
-        |> equals %Repeat{days: [], type: :daily, frequency: 23}
+        |> equals %Repeatex{days: [], type: :daily, frequency: 23}
 
     end
   end

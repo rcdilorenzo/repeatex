@@ -1,7 +1,6 @@
 defmodule Tokenizers.YearlyTest do
   use Amrita.Sweet
   alias Repeatex.Tokenizer.Yearly
-  alias Repeatex.Repeat
 
   facts "validation" do
     it "should return nil when invalid" do
@@ -18,10 +17,10 @@ defmodule Tokenizers.YearlyTest do
   facts "tokenize" do
     it "parses monthy/day" do
       Yearly.tokenize("every jan 3 annually")
-        |> equals %Repeat{days: [january: 3], type: :yearly, frequency: 1}
+        |> equals %Repeatex{days: [january: 3], type: :yearly, frequency: 1}
 
       Yearly.tokenize("dec 25 every 2 years")
-        |> equals %Repeat{days: [december: 25], type: :yearly, frequency: 2}
+        |> equals %Repeatex{days: [december: 25], type: :yearly, frequency: 2}
     end
   end
 

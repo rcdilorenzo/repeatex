@@ -1,11 +1,11 @@
 defmodule Repeatex.Formatter.Yearly do
-  alias Repeatex.Repeat
+  @behaviour Repeatex.Formatter
   import String
 
-  def format(%Repeat{} = repeat) do
+  def format(repeat) do
     case repeat do
-      %Repeat{type: type} when type != :yearly -> nil
-      %Repeat{frequency: freq, days: days} ->
+      %Repeatex{type: type} when type != :yearly -> nil
+      %Repeatex{frequency: freq, days: days} ->
         days(days, Enum.count(days)) <> " " <> freq(freq)
       _ -> nil
     end

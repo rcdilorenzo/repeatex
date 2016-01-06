@@ -1,12 +1,12 @@
 defmodule Repeatex.Formatter.Daily do
-  alias Repeatex.Repeat
+  @behaviour Repeatex.Formatter
 
-  def format(%Repeat{} = repeat) do
+  def format(repeat) do
     case repeat do
-      %Repeat{type: type} when type != :daily -> nil
-      %Repeat{frequency: 1} -> "daily"
-      %Repeat{frequency: 2} -> "every other day"
-      %Repeat{frequency: num} when is_integer(num) -> "every #{num} days"
+      %Repeatex{type: type} when type != :daily -> nil
+      %Repeatex{frequency: 1} -> "daily"
+      %Repeatex{frequency: 2} -> "every other day"
+      %Repeatex{frequency: num} when is_integer(num) -> "every #{num} days"
       _ -> nil
     end
   end
