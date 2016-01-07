@@ -21,13 +21,14 @@ defmodule Repeatex.Tokenizer.Monthly do
   end
 
   defp sort_or_reduce_days(days = [{_, _} | _]) do
-    Enum.reduce(days, %{}, fn {key, value}, map ->
-      Map.put(map, key, value)
+    Enum.reduce(days, %{}, fn
+      {key, value}, map -> Map.put(map, key, value)
+      _, map -> map
     end)
   end
 
   defp sort_or_reduce_days(days) do
-    Enum.sort(days)
+    Enum.sort(days) |> Enum.filter &is_integer/1
   end
 
   def valid_days?(days) do

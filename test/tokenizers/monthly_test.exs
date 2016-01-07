@@ -54,6 +54,15 @@ defmodule Tokenizers.MonthlyTest do
       Tokenizer.tokenize("every 3rd tues of every other month", Monthly)
         |> equals %Repeatex{days: %{tuesday: 3}, type: :monthly, frequency: 2}
     end
+
+    it "does not allow mixing relative days and absolute numbers" do
+      Tokenizer.tokenize("on the 3rd tuesday and 2nd of every month", Monthly)
+        |> equals %Repeatex{days: %{tuesday: 3}, type: :monthly, frequency: 1}
+
+      Tokenizer.tokenize("on the 2nd and 3rd tuesday of every month", Monthly)
+        |> equals %Repeatex{days: [2], type: :monthly, frequency: 1}
+      # TODO: allow specifying multiple weeks per day
+    end
   end
 
 end
