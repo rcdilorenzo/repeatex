@@ -7,7 +7,7 @@ Repeatex
 
 ![Repeatex](logo.png)
 
-Repeatex is a library for parsing, scheduling, and formatting repeating events. It handles many different expressions from "daily" to "on the 2nd tuesday and 4rd thursday of every other month". See [Usage](#usage) and [Examples](#example) for more detail.
+Repeatex is a library for parsing, scheduling, and formatting repeating events. It handles many different expressions from "daily" to "on the 2nd tuesday and 4rd thursday of every other month". See [Usage](#usage) and [Examples](#examples) for more detail. It also can act as a validator / formatter for a JSON client which is described in the [Integration with Phoenix](#integration-with-phoenix) section.
 
 # Usage
 
@@ -33,6 +33,16 @@ As repeatex isn't finished yet, you'll need to specify this repository location 
 ```elixir
 {:repeatex, github: "rcdilorenzo/repeatex"}
 ```
+
+# Integration with Phoenix
+
+If you've got a phoenix application and you'd like to integrate repeatex for validation / formatting for a JSON client, simply add the following to your router:
+
+```elixir
+forward "/repeatex", Repeatex.Web
+```
+
+See [test/controllers/README.md](test/controllers/README.md) for how to use the API.
 
 # Contribution
 

@@ -6,6 +6,6 @@ defmodule Repeatex.Controller do
   end
 
   def read(conn, %{"repeats" => map}) when is_map(map) do
-    json conn, %{repeats: nil}
+    json conn, %{description: Repeatex.parse_json(map) |> Repeatex.description}
   end
 end
