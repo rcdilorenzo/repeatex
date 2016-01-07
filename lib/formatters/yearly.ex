@@ -1,12 +1,13 @@
 defmodule Repeatex.Formatter.Yearly do
   @behaviour Repeatex.Formatter
   import String
+  import Repeatex.Helper
 
   def format(repeat) do
     case repeat do
       %Repeatex{type: type} when type != :yearly -> nil
       %Repeatex{frequency: freq, days: days} ->
-        days(days, Enum.count(days)) <> " " <> freq(freq)
+        days(days) <> " " <> freq(freq)
       _ -> nil
     end
   end
@@ -15,6 +16,12 @@ defmodule Repeatex.Formatter.Yearly do
   defp freq(2), do: "every other year"
   defp freq(num) when is_integer(num) do
     "every #{num} weeks"
+  end
+
+  defp days(map) when is_map(map) do
+    list = Enum.reduce(map, [], &(&2 ++ [&1]))
+      |> Enum.sort_by(&day_sort_order/1)
+    days(list, Enum.count(list))
   end
 
   defp days([day | [tail]], 2) do
@@ -34,6 +41,11 @@ defmodule Repeatex.Formatter.Yearly do
   end
 
   defp days([], _), do: ""
+
+  def day_sort_order({month, day}) do
+    month_index = Enum.find_index(months, &(&1 == month))
+    month_index * 31 + day
+  end
 
   defp to_day_string(num) when is_integer(num) do
     first_digit = to_string(num) |> split("", trim: true) |> List.last |> to_integer

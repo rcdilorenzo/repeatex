@@ -2,20 +2,16 @@ defmodule Repeatex.Scheduler.Monthly do
   @behaviour Repeatex.Scheduler
   import Repeatex.Helper
 
-  def next_date(%Repeatex{days: [{_, _} | _] = days, type: :monthly, frequency: frequency}, date) when is_integer(frequency) do
-    date_in_month = {year, month, _} = case frequency do
-      1 -> date
-      _ -> :edate.shift(date, frequency, :month)
-    end
-    {next_year, next_month, _} = :edate.shift(date_in_month, 1, :month)
+  def next_date(%Repeatex{days: days, type: :monthly, frequency: 1}, date) when is_map(days) do
+    next_date(%Repeatex{days: days, type: :monthly, frequency: 0}, date)
+  end
 
-    Stream.map(days, fn (_) -> {year, month} end)
-      |> Stream.concat(Stream.map(days, fn (_) -> {next_year, next_month} end))
-      |> Stream.zip(days ++ days)
-      |> Stream.map(&day_of_month/1)
-      |> Enum.sort(fn (next_date1, next_date2) ->
-        :edate.is_after(next_date2, next_date1)
-      end)
+  def next_date(%Repeatex{days: days, type: :monthly, frequency: frequency}, date) when is_map(days) and is_integer(frequency) do
+    dates = for shift <- 0..1, key <- Map.keys(days) do
+      {year, month, _} = :edate.shift(date, frequency + shift, :month)
+      day_of_month(year, month, key, days[key])
+    end
+      |> Enum.sort(&(:edate.is_after(&2, &1)))
       |> Enum.find(&(:edate.is_after(&1, date)))
   end
 
@@ -29,7 +25,7 @@ defmodule Repeatex.Scheduler.Monthly do
     end
   end
 
-  def day_of_month({{year, month}, {increment, day_of_week}}) do
+  def day_of_month(year, month, day_of_week, increment) do
     case index_of_day(day_of_week) - index_of_day(first_day_of_week_in_month(year, month)) do
       shift when shift < 0 ->
         {year, month, 1} |> :edate.shift(7 + shift, :days)

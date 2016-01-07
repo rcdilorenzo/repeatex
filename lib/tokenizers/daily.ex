@@ -8,13 +8,8 @@ defmodule Repeatex.Tokenizer.Daily do
   match_freq 2, ~r/every\s?other\s?day/
   match_freq "digit", ~r/(every|each).(?<digit>\d+)[\w\s]{0,3}day/
 
-  def tokenize(nil), do: nil
-  def tokenize(description) do
-    case %Repeatex{type: type(description), frequency: frequency(description)} do
-      %Repeatex{frequency: nil} -> nil
-      %Repeatex{type: type} when type != :daily -> nil
-      repeat -> repeat
-    end
-  end
+  def days(_), do: []
+  def valid_days?([]), do: true
+  def valid_days?(_), do: false
 
 end

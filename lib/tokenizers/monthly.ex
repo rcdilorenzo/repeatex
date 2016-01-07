@@ -12,37 +12,29 @@ defmodule Repeatex.Tokenizer.Monthly do
 
   @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?((?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| ))?/
 
-  def tokenize(nil), do: nil
-  def tokenize(description) do
-    case %Repeatex{type: type(description), days: days(description), frequency: frequency(description)} do
-      %Repeatex{frequency: nil} -> nil
-      %Repeatex{days: []} -> nil
-      %Repeatex{type: type} when type != :monthly -> nil
-      %Repeatex{days: days} when not is_list(days) -> nil
-      %Repeatex{days: days} = repeat ->
-        if valid_days?(days), do: repeat
-    end
-  end
-
   def days(description) do
-    @monthly_days |> Regex.scan(description) |> Enum.map(fn
+    days = @monthly_days |> Regex.scan(description) |> Enum.map(fn
       ([_, digit, _]) -> String.to_integer digit
-      ([_, digit, _, day_desc | _]) -> {String.to_integer(digit), find_day(day_desc)}
-    end) |> sort_days
+      ([_, digit, _, day_desc | _]) -> {find_day(day_desc), String.to_integer(digit)}
+    end) |> sort_or_reduce_days
+    if valid_days?(days), do: days
   end
 
-  defp sort_days(days) do
-    Enum.sort_by days, fn
-      ({num, _}) -> num
-      (num) -> num
-    end
-  end
-
-  defp valid_days?(days) do
-    Enum.all?(days, fn
-      ({week, _}) -> week <= 4
-      (day) -> day <= 31
+  defp sort_or_reduce_days(days = [{_, _} | _]) do
+    Enum.reduce(days, %{}, fn {key, value}, map ->
+      Map.put(map, key, value)
     end)
+  end
+
+  defp sort_or_reduce_days(days) do
+    Enum.sort(days)
+  end
+
+  def valid_days?(days) do
+    Enum.count(days) > 0 and Enum.all? days, fn
+      ({_, week}) -> week <= 4
+      (day) -> day > 0 and day <= 31
+    end
   end
 
 end

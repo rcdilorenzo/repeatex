@@ -1,36 +1,43 @@
 defmodule Tokenizers.DailyTest do
   use Amrita.Sweet
   alias Repeatex.Tokenizer.Daily
+  alias Repeatex.Tokenizer
+
+  test "validating days" do
+    refute Daily.valid_days?(%{})
+    refute Daily.valid_days?([1, 2])
+    assert Daily.valid_days?([])
+  end
 
   facts "validation" do
     it "should return nil when invalid" do
-      Daily.tokenize("") |> nil
-      Daily.tokenize(nil) |> nil
-      Daily.tokenize("mon-sat every week") |> nil
-      Daily.tokenize("every year") |> nil
-      Daily.tokenize("3rd of every month") |> nil
-      Daily.tokenize("every other monday") |> nil
-      Daily.tokenize("I love days") |> nil
+      Tokenizer.tokenize("", Daily) |> nil
+      Tokenizer.tokenize(nil, Daily) |> nil
+      Tokenizer.tokenize("mon-sat every week", Daily) |> nil
+      Tokenizer.tokenize("every year", Daily) |> nil
+      Tokenizer.tokenize("3rd of every month", Daily) |> nil
+      Tokenizer.tokenize("every other monday", Daily) |> nil
+      Tokenizer.tokenize("I love days", Daily) |> nil
     end
   end
 
   facts "tokenize" do
     it "parses day expression" do
-      Daily.tokenize("every other day")
+      Tokenizer.tokenize("every other day", Daily)
         |> equals %Repeatex{days: [], type: :daily, frequency: 2}
 
-      Daily.tokenize("every day")
+      Tokenizer.tokenize("every day", Daily)
         |> equals %Repeatex{days: [], type: :daily, frequency: 1}
 
-      Daily.tokenize("daily")
-        |> equals Daily.tokenize("every day")
+      Tokenizer.tokenize("daily", Daily)
+        |> equals Tokenizer.tokenize("every day", Daily)
     end
 
     it "parses number" do
-      Daily.tokenize("every 5 days")
+      Tokenizer.tokenize("every 5 days", Daily)
         |> equals %Repeatex{days: [], type: :daily, frequency: 5}
 
-      Daily.tokenize("every 23rd day")
+      Tokenizer.tokenize("every 23rd day", Daily)
         |> equals %Repeatex{days: [], type: :daily, frequency: 23}
 
     end

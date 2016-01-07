@@ -46,6 +46,8 @@ defmodule Repeatex.Helper do
       def type(description) do
         if Regex.match?(unquote(regex), description), do: unquote(type)
       end
+
+      def type, do: unquote(type)
     end
   end
 
@@ -60,6 +62,8 @@ defmodule Repeatex.Helper do
   end
 
   def all_days, do: @days
+  def month_strings, do: @data["months"]
+  def months, do: @monthlist
 
   def seq_days(start, end_day) when start in @days and end_day in @days do
     @days |> Enum.filter &in_day_range?(@days_index[&1], @days_index[start], @days_index[end_day])
@@ -135,5 +139,24 @@ defmodule Repeatex.Helper do
   defp in_day_range?(index, first_index, second_index) do
     (index >= first_index) and (index <= second_index)
   end
+
+  def convert_map(map) when is_map(map) do
+    for {key, value} <- map, into: %{} do
+      {convert_value(key), convert_value(value)}
+    end
+  end
+
+  defp convert_value(map) when is_map(map), do: convert_map(map)
+  defp convert_value(string) when is_binary(string) do
+    try do
+      String.to_existing_atom(string)
+    rescue ArgumentError -> string
+    end
+  end
+  defp convert_value([]), do: []
+  defp convert_value([head | tail]) do
+    [convert_value(head) | convert_value(tail)]
+  end
+  defp convert_value(value), do: value
 
 end

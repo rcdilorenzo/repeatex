@@ -13,15 +13,15 @@ defmodule Schedulers.MonthlyTest do
   end
 
   test "schedules relative week days" do
-    assert Monthly.next_date(repeat([{3, :tuesday}], 1), {2016, 1, 1}) == {2016, 1, 19}
-    assert Monthly.next_date(repeat([{2, :monday}, {3, :tuesday}], 1), {2016, 1, 1}) == {2016, 1, 11}
-    assert Monthly.next_date(repeat([{1, :monday}, {3, :tuesday}], 1), {2016, 1, 31}) == {2016, 2, 1}
-    assert Monthly.next_date(repeat([{3, :tuesday}, {1, :monday}], 2), {2016, 1, 31}) == {2016, 3, 7}
+    assert Monthly.next_date(repeat(%{tuesday: 3}, 1), {2016, 1, 1}) == {2016, 1, 19}
+    assert Monthly.next_date(repeat(%{monday: 2, tuesday: 3}, 1), {2016, 1, 1}) == {2016, 1, 11}
+    assert Monthly.next_date(repeat(%{monday: 1, tuesday: 3}, 1), {2016, 1, 31}) == {2016, 2, 1}
+    assert Monthly.next_date(repeat(%{tuesday: 3, monday: 1}, 2), {2016, 1, 31}) == {2016, 3, 7}
   end
 
   test "can find relative week days of the month" do
-    assert Monthly.day_of_month({{2016, 2}, {3, :wednesday}}) == {2016, 2, 17}
-    assert Monthly.day_of_month({{2016, 2}, {2, :sunday}}) == {2016, 2, 14}
+    assert Monthly.day_of_month(2016, 2, :wednesday, 3) == {2016, 2, 17}
+    assert Monthly.day_of_month(2016, 2, :sunday, 2) == {2016, 2, 14}
   end
 
   defp repeat(days, frequency) do

@@ -5,6 +5,10 @@ defmodule Repeatex do
     Repeatex.Tokenizer.parse(description)
   end
 
+  def parse_json(map) do
+    Repeatex.Tokenizer.parse_json(map)
+  end
+
   def next_date(repeatex, date) do
     Repeatex.Scheduler.next(repeatex, date)
   end

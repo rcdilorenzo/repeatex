@@ -10,10 +10,10 @@ defmodule Formatters.MonthlyTest do
       Monthly.format(%Repeatex{days: [21, 23, 24], type: :monthly, frequency: 2})
         |> equals "21st, 23rd, and 24th every other month"
 
-      Monthly.format(%Repeatex{days: [{3, :tuesday}, {2, :monday}], type: :monthly, frequency: 4})
-        |> equals "3rd Tue and 2nd Mon every 4 months"
+      Monthly.format(%Repeatex{days: %{tuesday: 3, monday: 2}, type: :monthly, frequency: 4})
+        |> equals "2nd Mon and 3rd Tue every 4 months"
 
-      Monthly.format(%Repeatex{days: [{3, :tuesday}], type: :monthly, frequency: 4})
+      Monthly.format(%Repeatex{days: %{tuesday: 3}, type: :monthly, frequency: 4})
         |> equals "3rd Tue every 4 months"
     end
   end
