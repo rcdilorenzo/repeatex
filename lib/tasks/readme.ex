@@ -51,6 +51,7 @@ defmodule Mix.Tasks.Repeatex.Readme do
   def schedule(repeatex, date) do
     """
     ```elixir
+    # #{Repeatex.description(repeatex)}:
     repeatex = #{repeatex |> to_str}
     Repeatex.next_date(repeatex, #{date |> to_str}) # => #{Repeatex.next_date(repeatex, date) |> to_str}
     ```

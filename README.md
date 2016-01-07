@@ -38,25 +38,28 @@ Repeatex.parse("mumbo jumbo")
 ## Scheduling
 
 ```elixir
+# Every other day:
 repeatex = %Repeatex{days: [], frequency: 2, type: :daily}
-Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 7}
+Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 9}
 ```
 
 ```elixir
+# Every other week on Fri and Mon:
 repeatex = %Repeatex{days: [:friday, :monday], frequency: 2, type: :weekly}
-Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 8}
+Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 8}
 ```
 
 ```elixir
-repeatex = %Repeatex{days: [{3, :tuesday}], frequency: 1, type: :monthly}
-Repeatex.next_date(repeatex, {2016, 1, 5}) # => {2016, 1, 19}
+# 3rd Tue every month:
+repeatex = %Repeatex{days: %{tuesday: 3}, frequency: 1, type: :monthly}
+Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 19}
 ```
 
 
 ## Formatting
 
 ```elixir
-repeatex = %Repeatex{days: [{3, :tuesday}], frequency: 1, type: :monthly}
+repeatex = %Repeatex{days: %{tuesday: 3}, frequency: 1, type: :monthly}
 Repeatex.description(repeatex)
 # => "3rd Tue every month"
 ```
@@ -155,12 +158,9 @@ Repeatex.parse("1st and 3rd every 2 months")
 ```elixir
 Repeatex.parse("on the 3rd tuesday of every month")
 # %Repeatex{
-#   days: [
-#     {
-#       3
-#       tuesday
-#     }
-#   ]
+#   days: %{
+#     tuesday: 3
+#   }
 #   frequency: 1
 #   type: monthly
 # }

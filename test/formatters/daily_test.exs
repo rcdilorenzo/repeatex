@@ -5,13 +5,13 @@ defmodule Formatters.DailyTest do
   facts "formatting" do
     it "should print description of a repeat" do
       Daily.format(%Repeatex{days: [], type: :daily, frequency: 2})
-        |> equals "every other day"
+        |> equals "Every other day"
 
       Daily.format(%Repeatex{days: [], type: :daily, frequency: 1})
-        |> equals "daily"
+        |> equals "Daily"
 
       Daily.format(%Repeatex{days: [], type: :daily, frequency: 30})
-        |> equals "every 30 days"
+        |> equals "Every 30 days"
     end
   end
 
