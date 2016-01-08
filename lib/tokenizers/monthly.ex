@@ -28,7 +28,7 @@ defmodule Repeatex.Tokenizer.Monthly do
   end
 
   defp sort_or_reduce_days(days) do
-    Enum.sort(days) |> Enum.filter &is_integer/1
+    Enum.sort(days) |> Enum.filter(&is_integer/1)
   end
 
   def valid_days?(days) do
