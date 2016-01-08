@@ -10,6 +10,7 @@ if Code.ensure_loaded?(Phoenix.Router) do
       pipe_through :api
 
       get "/", Controller, :read
+      put "/", Controller, :format
     end
   end
 end

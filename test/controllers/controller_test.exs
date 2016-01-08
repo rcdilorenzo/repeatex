@@ -10,7 +10,7 @@ defmodule Repeatex.ControllerTest do
   end
 
   test "formatting" do
-    response = conn(:get, "/repeatex", %{"repeats" => %{
+    response = conn(:put, "/repeatex", %{"repeats" => %{
       "type" => "monthly",
       "days" => [15, 25],
       "frequency" => 1

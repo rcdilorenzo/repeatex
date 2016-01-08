@@ -23,7 +23,7 @@ Response:
 
 Request:
 
-    GET /repeatex HTTP/1.1
+    PUT /repeatex HTTP/1.1
 
     {"repeats": {"type": "monthly", "days": [15, 25], "frequency": 1}}
 
