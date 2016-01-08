@@ -25,5 +25,4 @@ defmodule Repeatex.Tokenizer.Yearly do
       end)
     if valid_days?(days), do: days
   end
-
 end

@@ -7,7 +7,7 @@ defmodule Repeatex.Scheduler.Monthly do
   end
 
   def next_date(%Repeatex{days: days, type: :monthly, frequency: frequency}, date) when is_map(days) and is_integer(frequency) do
-    dates = for shift <- 0..1, key <- Map.keys(days) do
+    for shift <- 0..1, key <- Map.keys(days) do
       {year, month, _} = :edate.shift(date, frequency + shift, :month)
       day_of_month(year, month, key, days[key])
     end
