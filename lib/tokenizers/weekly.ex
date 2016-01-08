@@ -2,16 +2,16 @@ defmodule Repeatex.Tokenizer.Weekly do
   @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
-  match_type :weekly, ~r/(each|every|bi-?|other|on|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| |-))/
+  match_type :weekly, ~r/(each|every|bi-?|other|on|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| |-))/i
 
-  match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/
-  match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/
-  match_freq 2, ~r/(each|every|of the) other (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/
-  match_freq "digit", ~r/(?<digit>\d+).(week)/
-  match_freq 1, ~r/(^|\s)(on|weekly)/
-  match_freq 2, ~r/bi-?weekly/
+  match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/i
+  match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
+  match_freq 2, ~r/(each|every|of the) other (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
+  match_freq "digit", ~r/(?<digit>\d+).(week)/i
+  match_freq 1, ~r/(^|\s)(on|weekly)/i
+  match_freq 2, ~r/bi-?weekly/i
 
-  @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/
+  @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/i
 
   def valid_days?([]), do: false
   def valid_days?(days) when is_list(days) do
@@ -21,7 +21,7 @@ defmodule Repeatex.Tokenizer.Weekly do
 
   def days(description) do
     days = cond do
-      Regex.match?(~r/daily/, description) -> all_days
+      Regex.match?(~r/daily/i, description) -> all_days
       sequential_days?(description) ->
         %{"start" => first, "end" => second} = Regex.named_captures(@sequential, description)
         seq_days(find_day(first), find_day(second))

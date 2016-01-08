@@ -2,15 +2,15 @@ defmodule Repeatex.Tokenizer.Monthly do
   @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
-  match_type :monthly, ~r/month(ly)?/
+  match_type :monthly, ~r/month(ly)?/i
 
-  match_freq 1, ~r/monthly/
-  match_freq 1, ~r/(each|every|of the).month/
-  match_freq 2, ~r/bi-?month(ly)?/
-  match_freq 2, ~r/(each|every).other.month/
-  match_freq "digit", ~r/(?<digit>\d+).month/
+  match_freq 1, ~r/monthly/i
+  match_freq 1, ~r/(each|every|of the).month/i
+  match_freq 2, ~r/bi-?month(ly)?/i
+  match_freq 2, ~r/(each|every).other.month/i
+  match_freq "digit", ~r/(?<digit>\d+).month/i
 
-  @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?((?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| ))?/
+  @monthly_days ~r/(?<digit>\d+)(st|nd|rd|th).?((?<day>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| ))?/i
 
   def days(description) do
     days = @monthly_days |> Regex.scan(description) |> Enum.map(fn

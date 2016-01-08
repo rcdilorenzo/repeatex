@@ -2,13 +2,13 @@ defmodule Repeatex.Tokenizer.Yearly do
   @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
-  match_type :yearly, ~r/(year|annual)/
+  match_type :yearly, ~r/(year|annual)/i
 
-  match_freq 1, ~r/(yearly|annually)/
-  match_freq 1, ~r/(each|every|of the).year/
-  match_freq 2, ~r/bi-year(ly)?/
-  match_freq 2, ~r/(each|every).other.year/
-  match_freq "digit", ~r/(?<digit>\d+).year/
+  match_freq 1, ~r/(yearly|annually)/i
+  match_freq 1, ~r/(each|every|of the).year/i
+  match_freq 2, ~r/bi-year(ly)?/i
+  match_freq 2, ~r/(each|every).other.year/i
+  match_freq "digit", ~r/(?<digit>\d+).year/i
 
   def valid_days?(days) when is_map(days) do
     Map.keys(days) != [] and Enum.all?(days, fn {key, value} ->

@@ -22,6 +22,10 @@ defmodule Tokenizers.WeeklyTest do
     end
   end
 
+  test "parsing days" do
+    assert Weekly.days("Every other week on Mon and Wed") == [:monday, :wednesday]
+  end
+
   facts "tokenize" do
     it "parses single day" do
       Tokenizer.tokenize("every other monday", Weekly)

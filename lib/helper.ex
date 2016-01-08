@@ -4,7 +4,7 @@ defmodule Repeatex.Helper do
   @data File.read!(metadata) |> Poison.decode!
 
   @day_patterns Enum.map @data["day_patterns"], fn ({key, value}) ->
-    {String.to_atom(key), Regex.compile!(value)}
+    {String.to_atom(key), Regex.compile!(value, "i")}
   end
 
   @months Enum.map @data["month_patterns"], fn ({key, value}) ->
