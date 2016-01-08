@@ -10,7 +10,7 @@ defmodule Repeatex.Tokenizer do
 
   def parse(description) when is_binary(description) do
     concat_modules(__MODULE__)
-      |> Enum.find_value &(tokenize(description, &1))
+      |> Enum.find_value(&(tokenize(description, &1)))
   end
   def parse(_), do: nil
 

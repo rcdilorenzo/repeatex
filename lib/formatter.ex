@@ -5,7 +5,7 @@ defmodule Repeatex.Formatter do
 
   def format(description) do
     concat_modules(__MODULE__)
-      |> Enum.find_value &(&1.format(description))
+      |> Enum.find_value(&(&1.format(description)))
   end
 end
 

@@ -20,9 +20,9 @@ defmodule Repeatex.Tokenizer.Yearly do
   def days(description) do
     days = ~r/(?<month>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w* (?<day>\d+)/i
       |> Regex.scan(description)
-      |> Enum.reduce %{}, fn ([_, month, day], map) ->
+      |> Enum.reduce(%{}, fn ([_, month, day], map) ->
         Map.put(map, find_month(month), String.to_integer(day))
-      end
+      end)
     if valid_days?(days), do: days
   end
 
