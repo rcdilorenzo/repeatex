@@ -1,18 +1,15 @@
 defmodule Formatters.DailyTest do
-  use Amrita.Sweet
+  use ExUnit.Case
   alias Repeatex.Formatter.Daily
 
-  facts "formatting" do
-    it "should print description of a repeat" do
-      Daily.format(%Repeatex{days: [], type: :daily, frequency: 2})
-        |> equals "Every other day"
+  test "should print description of a repeat" do
+    assert Daily.format(%Repeatex{days: [], type: :daily, frequency: 2})
+      == "Every other day"
 
-      Daily.format(%Repeatex{days: [], type: :daily, frequency: 1})
-        |> equals "Daily"
+    assert Daily.format(%Repeatex{days: [], type: :daily, frequency: 1})
+      == "Daily"
 
-      Daily.format(%Repeatex{days: [], type: :daily, frequency: 30})
-        |> equals "Every 30 days"
-    end
+    assert Daily.format(%Repeatex{days: [], type: :daily, frequency: 30})
+      == "Every 30 days"
   end
-
 end

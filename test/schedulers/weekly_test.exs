@@ -1,8 +1,8 @@
 defmodule Schedulers.WeeklyTest do
-  use Amrita.Sweet
+  use ExUnit.Case
   alias Repeatex.Scheduler.Weekly
 
-  it "schedules for every day" do
+  test "schedules for every day" do
     assert Weekly.next_date(repeat([:monday, :friday], 1), {2015, 3, 16}) == {2015, 3, 20}
     assert Weekly.next_date(repeat([:monday], 1), {2015, 3, 18}) == {2015, 3, 23}
 
@@ -16,5 +16,4 @@ defmodule Schedulers.WeeklyTest do
   defp repeat(days, frequency) do
     %Repeatex{days: days, type: :weekly, frequency: frequency}
   end
-
 end

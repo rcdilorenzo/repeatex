@@ -29,14 +29,14 @@ defmodule Repeatex.Helper do
   defmacro __before_compile__(_env) do
     quote do
       def frequency(description) do
-        @frequency_matches |> Enum.find_value fn
+        @frequency_matches |> Enum.find_value(fn
           ({regex, freq}) when is_integer(freq) ->
             if Regex.match?(regex, description), do: freq
           ({regex, key}) when is_binary(key) ->
             if Regex.match?(regex, description) do
               Regex.named_captures(regex, description)[key] |> String.to_integer
             end
-        end
+        end)
       end
     end
   end
@@ -66,13 +66,13 @@ defmodule Repeatex.Helper do
   def months, do: @monthlist
 
   def seq_days(start, end_day) when start in @days and end_day in @days do
-    @days |> Enum.filter &in_day_range?(@days_index[&1], @days_index[start], @days_index[end_day])
+    @days |> Enum.filter(&in_day_range?(@days_index[&1], @days_index[start], @days_index[end_day]))
   end
 
   def find_month(month_description) do
-    @months |> Enum.find_value fn ({atom, regex}) ->
+    @months |> Enum.find_value(fn ({atom, regex}) ->
       if Regex.match?(regex, month_description), do: atom
-    end
+    end)
   end
 
   def find_day(description) do
@@ -80,9 +80,9 @@ defmodule Repeatex.Helper do
   end
 
   def find_days(description) do
-    @day_patterns |> Enum.filter_map fn ({_, regex}) ->
+    @day_patterns |> Enum.filter_map(fn ({_, regex}) ->
       Regex.match? regex, description
-    end, (fn ({atom, _}) -> atom end)
+    end, (fn ({atom, _}) -> atom end))
   end
 
   def next_day_of_week(day) do

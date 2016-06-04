@@ -1,5 +1,5 @@
 defmodule Tokenizers.YearlyTest do
-  use Amrita.Sweet
+  use ExUnit.Case
   alias Repeatex.Tokenizer.Yearly
   alias Repeatex.Tokenizer
 
@@ -11,26 +11,21 @@ defmodule Tokenizers.YearlyTest do
     # TODO: validate days in month (e.g. february no more than 29)
   end
 
-  facts "validation" do
-    it "should return nil when invalid" do
-      Tokenizer.tokenize("", Yearly) |> nil
-      Tokenizer.tokenize(nil, Yearly) |> nil
-      Tokenizer.tokenize("every day", Yearly) |> nil
-      Tokenizer.tokenize("3rd of every month", Yearly) |> nil
-      Tokenizer.tokenize("I love years", Yearly) |> nil
-    end
-
-    # it "only allows max days based on month"
+  test "should return nil when invalid" do
+    refute Tokenizer.tokenize("", Yearly)
+    refute Tokenizer.tokenize(nil, Yearly)
+    refute Tokenizer.tokenize("every day", Yearly)
+    refute Tokenizer.tokenize("3rd of every month", Yearly)
+    refute Tokenizer.tokenize("I love years", Yearly)
   end
 
-  facts "tokenize" do
-    it "parses monthy/day" do
-      Tokenizer.tokenize("every jan 3 annually", Yearly)
-        |> equals %Repeatex{days: %{january: 3}, type: :yearly, frequency: 1}
+  # test "only allows max days based on month"
 
-      Tokenizer.tokenize("dec 25 every 2 years", Yearly)
-        |> equals %Repeatex{days: %{december: 25}, type: :yearly, frequency: 2}
-    end
+  test "parses monthy/day" do
+    assert Tokenizer.tokenize("every jan 3 annually", Yearly)
+      == %Repeatex{days: %{january: 3}, type: :yearly, frequency: 1}
+
+    assert Tokenizer.tokenize("dec 25 every 2 years", Yearly)
+      == %Repeatex{days: %{december: 25}, type: :yearly, frequency: 2}
   end
-
 end

@@ -1,18 +1,18 @@
 defmodule HelperTest do
-  use Amrita.Sweet
+  use ExUnit.Case
   import Repeatex.Helper
 
-  it "determines next day of week" do
-    next_allowed_day(:monday, [:tuesday, :saturday]) |> equals :tuesday
+  test "determines next day of week" do
+    assert next_allowed_day(:monday, [:tuesday, :saturday]) == :tuesday
   end
 
-  it "finds the next number in a list" do
-    next_number([1, 4, 6], 5) |> equals 6
-    next_number([1, 3], 5) |> equals 1
-    next_number([4, 22], 3) |> equals 4
+  test "finds the next number in a list" do
+    assert next_number([1, 4, 6], 5) == 6
+    assert next_number([1, 3], 5) == 1
+    assert next_number([4, 22], 3) == 4
   end
 
-  it "converts a map to atom keys" do
+  test "converts a map to atom keys" do
     assert convert_map(%{
       "type" => "monthly",
       "days" => %{"monday" => 1, "thursday" => 3},

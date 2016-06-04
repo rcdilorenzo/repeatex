@@ -22,11 +22,9 @@ defmodule Repeatex.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.1.1", optional: true},
-      {:poison, "~> 1.3.1", optional: true},
       {:cowboy, "~> 1.0", optional: true},
       {:edate, github: "dweldon/edate"},
-      {:apex, "~> 0.3.2", only: :dev},
-      {:amrita, "~> 0.4", github: "josephwilk/amrita", only: :test}
+      {:apex, "~> 0.3.2", only: :dev}
     ]
   end
 end
