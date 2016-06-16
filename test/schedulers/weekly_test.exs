@@ -13,6 +13,11 @@ defmodule Schedulers.WeeklyTest do
     assert Weekly.next_date(repeat([:tuesday, :thursday, :saturday], 3), {2015, 3, 18}) == {2015, 3, 19}
   end
 
+  test "does not use the same day when non sequential days chosen" do
+    repeatex = repeat([:thursday], 1)
+    assert Weekly.next_date(repeatex, {2016, 6, 16}) == {2016, 6, 23}
+  end
+
   defp repeat(days, frequency) do
     %Repeatex{days: days, type: :weekly, frequency: frequency}
   end

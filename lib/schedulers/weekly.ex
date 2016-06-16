@@ -10,6 +10,8 @@ defmodule Repeatex.Scheduler.Weekly do
       diff when diff < 0 ->
         :edate.shift(date, diff, :days)
           |> :edate.shift(frequency, :week)
+      0 ->
+        :edate.shift(date, frequency, :week)
       diff ->
         :edate.shift(date, diff, :days)
     end
