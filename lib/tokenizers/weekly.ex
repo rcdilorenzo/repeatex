@@ -2,16 +2,25 @@ defmodule Repeatex.Tokenizer.Weekly do
   @behaviour Repeatex.Tokenizer
   use Repeatex.Helper
 
-  match_type :weekly, ~r/(each|every|bi-?|other|on|^)\s?(week|(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)($|day| |-))/i
+  @implicit_week ~r/(each|every|of the|on)\s?(\d+\w*|\w+)?\s?(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
 
   match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/i
   match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
   match_freq 2, ~r/(each|every|of the) other (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
-  match_freq "digit", ~r/(?<digit>\d+).(week)/i
+  match_freq "digit", ~r/(?<digit>\d+)(st|nd|rd|th).(week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
   match_freq 1, ~r/(^|\s)(on|weekly)/i
   match_freq 2, ~r/bi-?weekly/i
 
   @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/i
+
+  def type, do: :weekly
+
+  def type(description) do
+    if (Regex.match?(@implicit_week, description)
+    or Regex.match?(~r/(^|\s)week(s|ly)?(\s|$)/i, description)) and
+    not Regex.match?(~r/(^|\s)month(s|ly)?(\s|$)/i, description) and
+    not Regex.match?(~r/(^|\s)days?(\s|$)/i, description), do: :weekly
+  end
 
   def valid_days?([]), do: false
   def valid_days?(days) when is_list(days) do
