@@ -39,6 +39,9 @@ defmodule Tokenizers.WeeklyTest do
 
     assert Tokenizer.tokenize("every 2nd tuesday", Weekly)
       == %Repeatex{days: [:tuesday], type: :weekly, frequency: 2}
+
+    assert Tokenizer.tokenize("on wednesday every 3 weeks", Weekly)
+      == %Repeatex{days: [:wednesday], type: :weekly, frequency: 3}
   end
 
   test "parses sequential days" do

@@ -17,15 +17,15 @@ Repeatex is a library for parsing, scheduling, and formatting repeating events. 
 Repeatex.parse("mon-sat every week")
 # %Repeatex{
 #   days: [
-#     monday
-#     tuesday
-#     wednesday
-#     thursday
-#     friday
-#     saturday
+#     :monday
+#     :tuesday
+#     :wednesday
+#     :thursday
+#     :friday
+#     :saturday
 #   ]
 #   frequency: 1
-#   type: weekly
+#   type: :weekly
 # }
 ```
 
@@ -40,19 +40,19 @@ Repeatex.parse("mumbo jumbo")
 ```elixir
 # Every other day:
 repeatex = %Repeatex{days: [], frequency: 2, type: :daily}
-Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 9}
+Repeatex.next_date(repeatex, {2017, 5, 20}) # => {2017, 5, 22}
 ```
 
 ```elixir
 # Every other week on Fri and Mon:
 repeatex = %Repeatex{days: [:friday, :monday], frequency: 2, type: :weekly}
-Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 8}
+Repeatex.next_date(repeatex, {2017, 5, 20}) # => {2017, 5, 29}
 ```
 
 ```elixir
 # 3rd Tue every month:
 repeatex = %Repeatex{days: %{tuesday: 3}, frequency: 1, type: :monthly}
-Repeatex.next_date(repeatex, {2016, 1, 7}) # => {2016, 1, 19}
+Repeatex.next_date(repeatex, {2017, 5, 20}) # => {2017, 6, 20}
 ```
 
 
@@ -97,10 +97,9 @@ If you would like to contribute to the parser of other parts of this project, pl
 ```elixir
 Repeatex.parse("every other day")
 # %Repeatex{
-#   days: [
-#   ]
+#   days: []
 #   frequency: 2
-#   type: daily
+#   type: :daily
 # }
 ```
 
@@ -108,10 +107,10 @@ Repeatex.parse("every other day")
 Repeatex.parse("every other monday")
 # %Repeatex{
 #   days: [
-#     monday
+#     :monday
 #   ]
 #   frequency: 2
-#   type: weekly
+#   type: :weekly
 # }
 ```
 
@@ -119,10 +118,10 @@ Repeatex.parse("every other monday")
 Repeatex.parse("each tues")
 # %Repeatex{
 #   days: [
-#     tuesday
+#     :tuesday
 #   ]
 #   frequency: 1
-#   type: weekly
+#   type: :weekly
 # }
 ```
 
@@ -130,15 +129,15 @@ Repeatex.parse("each tues")
 Repeatex.parse("mon-sat every week")
 # %Repeatex{
 #   days: [
-#     monday
-#     tuesday
-#     wednesday
-#     thursday
-#     friday
-#     saturday
+#     :monday
+#     :tuesday
+#     :wednesday
+#     :thursday
+#     :friday
+#     :saturday
 #   ]
 #   frequency: 1
-#   type: weekly
+#   type: :weekly
 # }
 ```
 
@@ -149,7 +148,7 @@ Repeatex.parse("every 3rd of the month")
 #     3
 #   ]
 #   frequency: 1
-#   type: monthly
+#   type: :monthly
 # }
 ```
 
@@ -161,7 +160,7 @@ Repeatex.parse("1st and 3rd every 2 months")
 #     3
 #   ]
 #   frequency: 2
-#   type: monthly
+#   type: :monthly
 # }
 ```
 
@@ -172,7 +171,7 @@ Repeatex.parse("on the 3rd tuesday of every month")
 #     tuesday: 3
 #   }
 #   frequency: 1
-#   type: monthly
+#   type: :monthly
 # }
 ```
 

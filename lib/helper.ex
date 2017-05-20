@@ -29,7 +29,7 @@ defmodule Repeatex.Helper do
   defmacro __before_compile__(_env) do
     quote do
       def frequency(description) do
-        @frequency_matches |> Enum.find_value(fn
+        @frequency_matches |> Enum.reverse |> Enum.find_value(fn
           ({regex, freq}) when is_integer(freq) ->
             if Regex.match?(regex, description), do: freq
           ({regex, key}) when is_binary(key) ->

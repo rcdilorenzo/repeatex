@@ -4,9 +4,9 @@ defmodule Repeatex.Tokenizer.Monthly do
 
   match_type :monthly, ~r/month(ly)?/i
 
+  match_freq 2, ~r/bi-?month(ly)?/i
   match_freq 1, ~r/monthly/i
   match_freq 1, ~r/(each|every|of the).month/i
-  match_freq 2, ~r/bi-?month(ly)?/i
   match_freq 2, ~r/(each|every).other.month/i
   match_freq "digit", ~r/(?<digit>\d+).month/i
 

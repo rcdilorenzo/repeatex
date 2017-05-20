@@ -4,12 +4,12 @@ defmodule Repeatex.Tokenizer.Weekly do
 
   @implicit_week ~r/(each|every|of the|on)\s?(\d+\w*|\w+)?\s?(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
 
+  match_freq "digit", ~r/(?<digit>\d+)(st|nd|rd|th|\s).?(weeks?|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
   match_freq 1, ~r/^(sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?s?$/i
   match_freq 1, ~r/(each|every|of the) (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
   match_freq 2, ~r/(each|every|of the) other (week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
-  match_freq "digit", ~r/(?<digit>\d+)(st|nd|rd|th).(week|sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)/i
-  match_freq 1, ~r/(^|\s)(on|weekly)/i
   match_freq 2, ~r/bi-?weekly/i
+  match_freq 1, ~r/(^|\s)(on|weekly)/i
 
   @sequential ~r/(?<start>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?-(?<end>sun|mon|tues?|wedn?e?s?|thurs?|fri|satu?r?)d?a?y?/i
 
