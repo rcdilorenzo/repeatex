@@ -125,7 +125,7 @@ defmodule Repeatex.Helper do
   def convert_and_concat(base_module, type) when is_atom(type) do
     try do
       module = type |> to_string
-        |> Mix.Utils.camelize
+        |> Macro.camelize
         |> String.to_atom
       Module.safe_concat(base_module, module)
     rescue ArgumentError -> nil
